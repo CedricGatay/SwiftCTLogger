@@ -19,10 +19,13 @@ public extension Loggable{
     }
     
     private func i18n(_ key: String) -> String {
-        let translated = NSLocalizedString("\(loggerPrefix)_\(key)",
-                                           tableName: LoggableConfig.localizableFileName,
-                                           bundle: Bundle.allBundles.first!,
-                                           comment: "")
+        let translatedList = Bundle.allBundles.compactMap{
+            NSLocalizedString("\(loggerPrefix)_\(key)",
+                tableName: LoggableConfig.localizableFileName,
+                bundle: $0,
+                comment: "")
+        }
+        guard let translated = translatedList.first else { return "\(key) %@" }
         return translated.isEmpty || translated == key ? "\(key) %@" : translated
     }
     
