@@ -1,11 +1,11 @@
 import Foundation
 public extension Loggable{
     
-    private func formatCode() -> String{
+    func formatCode() -> String{
         return String(format: "%0\(Self.digitAmount)d", self.rawValue)
     }
     
-    private func formatMessage() -> String{
+    func formatMessage() -> String{
         //not that nice but allows to get string representation of enum associated values, as we do not have a nice generic way of doing it, should we use Mirror ?
         let elementMirror = Mirror(reflecting: self)
         let caseName = String(describing: self)
@@ -23,7 +23,7 @@ public extension Loggable{
         return args.isEmpty ? i18n(caseName) : args.joined(separator: "\n")
     }
     
-    private func i18n(_ key: String) -> String {
+    func i18n(_ key: String) -> String {
         let lookupKey = "\(loggerPrefix)_\(key)"
         let translatedList = Bundle.allBundles.compactMap{
             NSLocalizedString(lookupKey,
