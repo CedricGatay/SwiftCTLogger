@@ -20,12 +20,11 @@ public extension Loggable{
             .map { element in
                 String(format: i18n(element.label), arguments: element.args)
         }
-        return args.isEmpty ? caseName : args.joined(separator: "\n")
+        return args.isEmpty ? i18n(caseName) : args.joined(separator: "\n")
     }
     
     private func i18n(_ key: String) -> String {
         let lookupKey = "\(loggerPrefix)_\(key)"
-        print(lookupKey)
         let translatedList = Bundle.allBundles.compactMap{
             NSLocalizedString(lookupKey,
                 tableName: LoggableConfig.localizableFileName,
@@ -50,22 +49,27 @@ public extension Loggable{
     }
     
     func debug(){
+        guard LoggableConfig.facility.isDebugEnabled else { return }
         LoggableConfig.facility.debug(message)
     }
     
     func log(){
+        guard LoggableConfig.facility.isLogEnabled else { return }
         LoggableConfig.facility.log(message)
     }
     
     func warn(){
+        guard LoggableConfig.facility.isWarnEnabled else { return }
         LoggableConfig.facility.warn(message)
     }
     
     func error(){
+        guard LoggableConfig.facility.isErrorEnabled else { return }
         LoggableConfig.facility.error(message)
     }
     
     func fatal(){
+        guard LoggableConfig.facility.isFatalEnabled else { return }
         LoggableConfig.facility.fatal(message)
     }
 }
