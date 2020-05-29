@@ -31,4 +31,26 @@ class CTLoggerTests: XCTestCase {
         TestCaseTwo.NetworkTimeOut(URL(string: "https://code-troopers.com")!).debug()
         TestCaseTwo.ComplexError(ErrorStructure(code:462, value: "This is utterly complex")).debug()
     }
+    
+    func testLogWithMultipleArgs(){
+        TestCaseTwo.MultipleArguments("First", URL(string:"https://code-troopers.com")!).debug()
+    }
+    
+    func testLogVarargs(){
+        let rawStr = "There are two %@ arguments to log %@"
+        let logCase = TestCaseTwo.MultipleArguments("First", URL(string: "https://code-troopers.com")!)
+        let elementMirror = Mirror(reflecting: logCase)
+        let args: [String] = elementMirror.children.filter {$0.label != nil}
+            .map { child -> (label: String, args: [String]) in
+                let extractedTupleValues: [String] = Mirror(reflecting: child.value).children.map { String(describing: $0.value) }
+                return (label: child.label!,
+                        args: extractedTupleValues.isEmpty
+                            ? [String(describing: child.value)]
+                            : extractedTupleValues)
+        }
+            .map { element in
+                String(format: rawStr, arguments: element.args)
+        }
+        print(args)
+    }
 }

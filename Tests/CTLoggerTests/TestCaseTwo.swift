@@ -13,6 +13,7 @@ enum TestCaseTwo{
     case TooManyCalls(String)
     case NetworkTimeOut(URL)
     case ComplexError(ErrorStructure)
+    case MultipleArguments(String, URL)
 }
 
 struct ErrorStructure{
@@ -29,6 +30,8 @@ extension TestCaseTwo:Loggable{
             return 2
         case .ComplexError:
             return 3
+        case .MultipleArguments:
+            return 4
         }
     }
 }

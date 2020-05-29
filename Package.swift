@@ -18,6 +18,6 @@ let package = Package(
             dependencies: []),
         .testTarget(
             name: "CTLoggerTests",
-            dependencies: ["CTLogger"]),
+            dependencies: ["CTLogger"]), //FIXME in 5.3 we can add "resources" to include .strings for testing
     ]
 )

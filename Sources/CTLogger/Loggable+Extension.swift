@@ -9,17 +9,23 @@ public extension Loggable{
         //not that nice but allows to get string representation of enum associated values, as we do not have a nice generic way of doing it, should we use Mirror ?
         let elementMirror = Mirror(reflecting: self)
         let caseName = String(describing: self)
-        let args = elementMirror.children.filter {$0.label != nil}
-            .map { (label: $0.label!,
-                    args: [String(describing: $0.value)])}
-            .map {
-                String(format: i18n($0.label), arguments: $0.args)
+        let args: [String] = elementMirror.children.filter {$0.label != nil}
+            .map { child -> (label: String, args: [String]) in
+                let extractedTupleValues: [String] = Mirror(reflecting: child.value).children.map { String(describing: $0.value) }
+                return (label: child.label!,
+                        args: extractedTupleValues.isEmpty
+                            ? [String(describing: child.value)]
+                            : extractedTupleValues)
+        }
+            .map { element in
+                String(format: i18n(element.label), arguments: element.args)
         }
         return args.isEmpty ? caseName : args.joined(separator: "\n")
     }
     
     private func i18n(_ key: String) -> String {
         let lookupKey = "\(loggerPrefix)_\(key)"
+        print(lookupKey)
         let translatedList = Bundle.allBundles.compactMap{
             NSLocalizedString(lookupKey,
                 tableName: LoggableConfig.localizableFileName,

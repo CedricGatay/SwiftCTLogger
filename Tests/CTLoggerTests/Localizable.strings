@@ -1,0 +1,10 @@
+/* 
+  Localizable.strings
+  Logger
+
+  Created by Cedric Gatay on 08/01/2019.
+  Copyright © 2019 Cedric Gatay. All rights reserved.
+*/
+TCT_TooManyCalls="Trop d'appel %@";
+TCT_NetworkTimeOut="Une erreur réseau est arrivée %@";
+TCT_MultipleArguments="There are two %@ arguments to log %@";

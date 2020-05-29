@@ -1,9 +1,0 @@
-/* 
-  Localizable.strings
-  Logger
-
-  Created by Cedric Gatay on 08/01/2019.
-  Copyright © 2019 Cedric Gatay. All rights reserved.
-*/
-TooManyCalls="Trop d'appel %@";
-NetworkTimeOut="Une erreur réseau est arrivée %@";
